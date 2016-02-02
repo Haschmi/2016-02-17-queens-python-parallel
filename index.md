@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Programming with Python
+title: Parallel Programming with Python
 ---
 The best way to learn how to program is to do something useful,
 so this introduction to Python is built around a common scientific task:
@@ -85,16 +85,16 @@ To do all that, we'll have to learn a little bit about programming.
 
 ## Topics
 
-1.  [Analyzing Patient Data](01-numpy.html)
-2.  [Repeating Actions with Loops](02-loop.html)
-3.  [Storing Multiple Values in Lists](03-lists.html)
-4.  [Analyzing Data from Multiple Files](04-files.html)
-5.  [Making Choices](05-cond.html)
-6.  [Creating Functions](06-func.html)
-7.  [Errors and Exceptions](07-errors.html)
-8.  [Defensive Programming](08-defensive.html)
-9.  [Debugging](09-debugging.html)
-10.  [Command-Line Programs](10-cmdline.html)
+1.  [Parallel Computing](01-numpy.html)
+2.  [Shared Memory and Distributed Memory](02-loop.html)
+3.  [Multicore Machines and Multithreading](03-lists.html)
+4.  [Clusters and Message Passing](04-files.html)
+5.  [MPI](05-cond.html)
+6.  [Back to Python: MPI4Py](06-func.html)
+7.  [All Together Now: Hello World](07-errors.html)
+8.  [Let's Talk: Point-To-Point](08-defensive.html)
+9.  [The Return of Mandelbrot (in parallel)](09-debugging.html)
+10. [Concluding Remarks](10-cmdline.html)
 
 
 ## Other Resources
