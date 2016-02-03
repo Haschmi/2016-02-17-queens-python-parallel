@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>Software Carpentry: Parallel Computing</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
+      </div>
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">Parallel Computing</h1></a>
+          <h2 class="subtitle">Clusters and Message Passing</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="learning-objectives"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>Use a library function to get a list of filenames that match a simple wildcard pattern.</li>
+<li>Use a for loop to process multiple files.</li>
+</ul>
+</div>
+</section>
+<p>If a computational problem is very large, the limitations of shared-memory machines (not to mention the price tag on the big ones) become an issue. The largest shared memory machines have less than 1000 cores or CPUs, and if that’s not enough, we have to use a cluster. Since clusters are essentially many individual machines connected via a communication system, the communication is a crucial part of the code. This has to be done explicitly, because it is too complicated for automatic compilation or even compiler directives.</p>
+<p>The structure of a program that is designed for a cluster resembles the simultaneous independent run of the same code on multiple computers with an added communication between these processes:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">Another picture</code></pre></div>
+<p>The standard API that is used to establish communication is called MPI (Message Passing Interface). It’s a set of about 200 routines that are used to make processes that run on different CPU’s “talk with each other”. There are interfaces for Fortran, C, and C++, and some kind soul has provided some of the interfaces (you guessed it) for Python. But well get back to that later.</p>
+<p>Unlike shared-memory programs, MPI programs have to be started “from the outside”. Since each of the multiple processes are full-fledged standalone program runs, we can’t just type the program name as we did in the case of a multithreaded application. Instead we are using a “runtime environment” that starts the individual processes on the proper hardware and establishes the communication paths. Most of the time the command that starts this runtime environment is called mpirun.</p>
+<p>Let’s try this out. In the same rootsum directory that we used in the last segment, there is another program called MPIrootsum.exe. This thing does the same “sum of square roots” computation as the OMProotsum.exe we used before. Got into the directory and start it as follows:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">$ mpirun <span class="op">-</span>np <span class="dv">2</span> .<span class="op">/</span>MPIrootsum.x </code></pre></div>
+<pre class="output"><code>How many terms?</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="dv">1234567890</span></code></pre></div>
+<pre class="output"><code> RANK:           0 MYS=   14459431279586.3       M:  1234567890
+ RANK:           1 MYS=   14459431262016.8       M:  1234567890
+ Total sum:     28918862541603.1
+ Total time on rank 0:     2.98754600000000</code></pre>
+<p>The -np 2 option to the mpirun command tells the system to start 2 processes, in other words, run the program twice. In our case we don’t really have a cluster that we run this on. Instead we are running it on the same hardware we ran the shred-memory program on before. But that’s OK, because you can run MPI programs on almost anything. As long as teach of the program runs can go to different CPUs (i.e. as long as you’re using a parallel computer of some type), it will benefit from the hardware. In this particular case, we have each of the program runs compute only the sum of half of the square roots, and then one process communicates its result to the other and the other (“rank 0”) sums up the two partial sums. Each prints out their intermediate result and one of them shows the total. Also printed out is the time requirements of one of them - we’re assuming the other is not far behind. Let’s see how long it takes to do it with only one:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">$ mpirun <span class="op">-</span>np <span class="dv">1</span> .<span class="op">/</span>rootsum.x <span class="op">&lt;</span> rootsum.<span class="op">in</span>
+ How many terms?
+ RANK:           <span class="dv">0</span> MYS<span class="op">=</span>   <span class="fl">28918862541603.5</span>       M:  <span class="dv">1234567890</span>
+ Total <span class="bu">sum</span>:     <span class="fl">28918862541603.5</span>
+ Total time on rank <span class="dv">0</span>:     <span class="fl">5.85311000000000</span></code></pre></div>
+<p>Sure enough, almost twice as long. There are of course some losses. In practice, most of the issues one encounters with MPI programs and lack of scaling are due to communication. As mentioned before that is the bottle neck.</p>
+        </div>
+      </div>
+      </article>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/python-novice-inflammation">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      </div>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>

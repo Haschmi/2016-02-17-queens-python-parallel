@@ -1,4 +1,4 @@
----
+﻿---
 layout: page
 title: Parallel Programming with Python
 ---
@@ -85,10 +85,10 @@ To do all that, we'll have to learn a little bit about programming.
 
 ## Topics
 
-1.  [Parallel Computing](01-numpy.html)
-2.  [Shared Memory and Distributed Memory](02-loop.html)
-3.  [Multicore Machines and Multithreading](03-lists.html)
-4.  [Clusters and Message Passing](04-files.html)
+1.  [Parallel Computing](01-parallel.html)
+2.  [Shared Memory and Distributed Memory](02-smdm.html)
+3.  [Multicore Machines and Multithreading](03-multicore.html)
+4.  [Clusters and Message Passing](04-clusters.html)
 5.  [MPI](05-cond.html)
 6.  [Back to Python: MPI4Py](06-func.html)
 7.  [All Together Now: Hello World](07-errors.html)
