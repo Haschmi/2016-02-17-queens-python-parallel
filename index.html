@@ -27,61 +27,22 @@
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
                     <h1 class="title">Parallel Programming with Python</h1>
-          <p>The best way to learn how to program is to do something useful, so this introduction to Python is built around a common scientific task: data analysis.</p>
-<p>Our real goal isn’t to teach you Python, but to teach you the basic concepts that all programming depends on. We use Python in our lessons because:</p>
+          <p>Modern Computers are often “parallel”, i.e. they have multiple processing units that can be taught to work together on a single application. Parallel computers range from multicore cell phones to huge clusters with hundreds of thousands of processors. Programming for such machines can be a daunting task. But a few basic principles can get you surprisingly far.</p>
+<p>In this course we would like to give you a basic introduction into how to go about writing a parallel program, and then run it on a small parallel system. We’re using a system called “MPI” (Message Passing Interface) for this. There’s a few reasons why we’re using MPI to illustrate parallel programming:</p>
 <ol style="list-style-type: decimal">
-<li>we have to use <em>something</em> for examples;</li>
-<li>it’s free, well-documented, and runs almost everywhere;</li>
-<li>it has a large (and growing) user base among scientists; and</li>
-<li>experience shows that it’s easier for novices to pick up than most other languages.</li>
+<li>MPI works on any kind of parallel computer, irrespective of the details of the architecture;</li>
+<li>It is very explicit, i.e. everything to do with parallel processing has to be “spelled out”;</li>
+<li>Python bindings are available, so we can build on what we learned before; and</li>
+<li>Although it is large and can get very complex, there’s a lot of simlifications we can make, and we get some good parallelism out of a handful of function calls.</li>
 </ol>
-<p>But the two most important things are to use whatever language your colleagues are using, so that you can share your work with them easily, and to use that language <em>well</em>.</p>
-<p>We are studying inflammation in patients who have been given a new treatment for arthritis, and need to analyze the first dozen data sets of their daily inflammation. The data sets are stored in <a href="reference.html#comma-separated-values">comma-separated values</a> (CSV) format: each row holds information for a single patient, and the columns represent successive days. The first few rows of our first file look like this:</p>
-<pre><code>0,0,1,3,1,2,4,7,8,3,3,3,10,5,7,4,7,7,12,18,6,13,11,11,7,7,4,6,8,8,4,4,5,7,3,4,2,3,0,0
-0,1,2,1,2,1,3,2,2,6,10,11,5,9,4,4,7,16,8,6,18,4,12,5,12,7,11,5,11,3,3,5,4,4,5,5,1,1,0,1
-0,1,1,3,3,2,6,2,5,9,5,7,4,5,4,15,5,11,9,10,19,14,12,17,7,12,11,7,4,2,10,5,4,2,2,3,2,2,1,1
-0,0,2,0,4,2,2,1,6,7,10,7,9,13,8,8,15,10,10,7,17,4,4,7,6,15,6,4,9,11,3,5,6,3,3,4,2,3,2,1
-0,1,1,3,3,1,3,5,2,4,4,7,6,5,3,10,8,10,6,17,9,14,9,7,13,9,12,6,7,7,9,6,3,2,2,4,2,0,1,1</code></pre>
-<p>We want to:</p>
-<ul>
-<li>load that data into memory,</li>
-<li>calculate the average inflammation per day across all patients, and</li>
-<li>plot the result.</li>
-</ul>
-<p>To do all that, we’ll have to learn a little bit about programming.</p>
+<p>Note that we won’t be able to make a parallel programmer out of you in three hours. We’re just using this opportunity to give you an idea of what’s what. We encourage you to join the one or other of the “High-Performance Computing” courses that we offer, where we can go into much more detail.</p>
+<p>The approach we are taking here is to work towards taking our “Mandelbrot Set” program that we developed in the Python Novice session, and “parallelize” it by letting multiple processors do parts of the overalll work simultaneously.</p>
 <section class="prereq panel panel-warning">
 <div class="panel-heading">
-<h2 id="prerequisites"><span class="glyphicon glyphicon-education"></span>Prerequisites</h2>
+<h2 id="note"><span class="glyphicon glyphicon-education"></span>Note</h2>
 </div>
 <div class="panel-body">
-<p>Learners need to understand the concepts of files and directories (including the working directory) and how to start a Python interpreter before tackling this lesson. This lesson references the Jupyter (IPython) Notebook although it can be taught through any Python interpreter. The commands in this lesson pertain to <strong>Python 3</strong>.</p>
-</div>
-</section>
-<section class="getready panel panel-warning">
-<div class="panel-heading">
-<h2 id="getting-ready"><span class="glyphicon glyphicon-check"></span>Getting ready</h2>
-</div>
-<div class="panel-body">
-<p>You need to download some files to follow this lesson:</p>
-<ol style="list-style-type: decimal">
-<li>Make a new folder in your Desktop called <code>python-novice-inflammation</code>.</li>
-<li>Download <a href="./python-novice-inflammation-data.zip">python-novice-inflammation-data.zip</a> and move the file to this folder.</li>
-<li>If it’s not unzipped yet, double-click on it to unzip it. You should end up with a new folder called <code>data</code>.</li>
-<li>You can access this folder from the Unix shell with:</li>
-</ol>
-<pre class="input"><code>$ cd &amp;&amp; cd Desktop/python-novice-inflammation/data</code></pre>
-</div>
-</section>
-<section class="getready panel panel-warning">
-<div class="panel-heading">
-<h2 id="starting-python"><span class="glyphicon glyphicon-check"></span>Starting Python</h2>
-</div>
-<div class="panel-body">
-<p>If you will be using the IPython or Jupyter notebook for the lesson, you should have already <a href="http://swcarpentry.github.io/workshop-template/#setup">installed Anaconda</a> which includes the notebook.</p>
-<p>To start the notebook, open a terminal or git bash and type the command:</p>
-<pre class="input"><code>$ ipython notebook</code></pre>
-<p>To start the Python intrepreter without the notebook, open a terminal or git bash and type the command:</p>
-<pre class="input"><code>$ python</code></pre>
+<p>Unfortunately, this part of the workshops is a lot less hands-on than others. This is unavoidable: because we are going to introduce a lot of new concepts before we are ready to apply them, there’s going to be a lot more talking and a lot less typing. We’re trying to put the one or other exercise in there, but it won’t be before the “final hour” or so that we get to get around to the main task.</p>
 </div>
 </section>
 <h2 id="topics">Topics</h2>
@@ -90,12 +51,12 @@
 <li><a href="02-smdm.html">Shared Memory and Distributed Memory</a></li>
 <li><a href="03-multicore.html">Multicore Machines and Multithreading</a></li>
 <li><a href="04-clusters.html">Clusters and Message Passing</a></li>
-<li><a href="05-cond.html">MPI</a></li>
-<li><a href="06-func.html">Back to Python: MPI4Py</a></li>
-<li><a href="07-errors.html">All Together Now: Hello World</a></li>
-<li><a href="08-defensive.html">Let’s Talk: Point-To-Point</a></li>
-<li><a href="09-debugging.html">The Return of Mandelbrot (in parallel)</a></li>
-<li><a href="10-cmdline.html">Concluding Remarks</a></li>
+<li><a href="05-mpi.html">MPI</a></li>
+<li><a href="06-mpi4py.html">Back to Python: MPI4Py</a></li>
+<li><a href="07-hello.html">All Together Now: Hello World</a></li>
+<li><a href="08-p2p.html">Let’s Talk: Point-To-Point</a></li>
+<li><a href="09-rootsum.html">Broadcast and Reduce: Sum of Square Roots</a></li>
+<li><a href="10-mandel.html">The Return of Mandelbrot (in parallel)</a></li>
 </ol>
 <h2 id="other-resources">Other Resources</h2>
 <ul>
