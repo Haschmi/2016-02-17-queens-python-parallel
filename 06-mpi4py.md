@@ -16,9 +16,20 @@ beginners this means that they don't have to worry about a lot of details that a
 
 Here's a list of MPI functions that we will be using in our next few mini-projects. They are the absolute minimum needed to write a working MPI program
 
-~~~ {.python}
-Table with MPI features
-~~~
+| Action | Name of Command | Simplest Implementation |
+|-----------|----------|-----------------------------------------|
+Package Load| | from mpi4py import MPI 
+Initialization | MPI_Init | Not required in Python, happens when loading MPI4Py
+Finalization | MPI_Finalize | Not required, happens automatically at program end
+Communicator | Set directly | comm=MPI_COMM_WORLD
+Rank | MPI_Comm_rank | comm.Get_rank()
+Size | MPI_Comm_size | comm.Get_size()
+Send (blocking) | MPI_Send | comm.Send(data,  dest=drank, tag=itag) (automatic)
+Receive (blocking) | MPI_Recv | comm.Recv(data, source=srank, tag=itag) (automatic)
+Broadcast | MPI_Bcast | comm.Bcast(data, root=rrank) (automatic)
+Reduce | MPI_Reduce | comm.Reduce(pdata, tdata, op=MPI.op, root=rrank) (automatic)
+Barrier | MPI_Barrier | Comm.Barrier()
+
 
 Note that for most of these there are several ways of specifying details by adding more arguments. For how to use this, you need to study the package in detail. The most compelling aspect of these interfaces is that Python usually can figure out what is the type and shape of the data that are being transmitted. As long as things match on both sides of the communication, you're usually good.
 

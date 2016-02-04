@@ -18,9 +18,7 @@ This part of the workshop is on the "dry side". To explain the basic principles 
 
 As we outlined before, in a serial program, we're starting just one process, and that gets executed on a single processing unit, such as a core. With an MPI program, we're starting several and normally leave it to the Operating System to run each on different CPUs. There are ways to spell it out to the machine what goes where, but we don't bother with that. All we do is specify how many processes we want to run, and the OS takes care of the rest
 
-~~~ {.python}
-Picture of parallel and serial code
-~~~
+![Parallel Programs](fig/Parallel.png)\
 
 Note that the number of cores or CPUs or nodes on a cluster isn't necessarily the same as the number of processes we started. That still works, although it won't give you as much speedup as you may expect. Normally it is best to not start more processes than you have processors available to you. That way you get "dedicated cores" and your program runs as well as it can.
 
@@ -28,9 +26,7 @@ Note that the number of cores or CPUs or nodes on a cluster isn't necessarily th
 
 MPI uses the idea of "ranks". These are numbers between 0 and one less than the number of processes, that are used to label each process with a unique number. We can use these to specify where we want to send messages, or from what process we expect messages:
 
-~~~ {.python}
-Picture of Rank and Size
-~~~
+![Ranks and Sizes](fig/RankSize.png)\
 
 The two functions MPI_COMM_RANK and MPI_COMM_SIZE are used by each process to determine their rank (i.e. their name) and the size. The latter is the total number of processes that are active. This information is essential for all processes, since they need to know how many others there are to properly distribute the workload.
 
@@ -75,9 +71,7 @@ In case you are wondering what that IERR argument of the function call is about.
 
 One of the ideas introduced in MPI programs is the notion of a "communicator". Communicators are groups of processes and a communication system between them. We need this in an MPI program because we may have several of these groups/systems in a more complicated program. You can think of it like different mailing systems: Canada Post, UPS, Fedex etc… each with a (often overlapping) group of users that you can reach with it. Ranks and size are specific to a communicator. For most MPI function calls we will be asked to specify the communicator. For simple program, we often need only one: the default communicator MPI_COMM_WORLD. As the name indicates, it has all the processes that we started in it.
 
-~~~ {.python}
-Picture of communicators
-~~~
+![Communicators](fig/Communicators.png)\
 
 ## Point-2-Point Communication, MPI_Send, MPI_Recv
 
@@ -93,9 +87,7 @@ The message is usually some kind of data structure. In low-level programming lan
 * An additional "tag" (just an integer) also needs to be specified to distinguish between different messages among the same processes, i.e. to avoid getting "wires crossed".
 * The communicator also needs to be specified and needs to match. Often this is just the default one MPI_COMM_WORLD.
 
-~~~ {.python}
-Picture of P2P
-~~~
+![Point-To-Point Communication](fig/Point2Point.png)\
 
 If any of the stuff that we need to specify does not match, the communication will not work. MPI is notoriously bad at error reporting, so it is well possible that you'd spend a lot of time staring at a "stuck screen" when that happens. Here are a few scenarios of that kind:
 
@@ -125,17 +117,13 @@ Collective Operations in MPI are function calls that involve all processes. Typi
 
 The above situation would require an MPI_BCAST call, a so-called "broadcast". Note that broadcasts involve the recipient (the listener) as much as the sender (broadcaster), so they must be called by all processes:
 
-~~~ {.python}
-Picture of Bcast
-~~~
+![Broadcast](fig/Broadcast.png)\
 
 We're showing all the required arguments in a FORTRAN call here. In Python things are a bit simpler. But we definitely need to specify what is being broadcast (in this case, array A), which rank has the information at the outset (this is called the "root process", in this and most cases, it's 0), and the communicator (MYCOM, in many cases it's MPI_COMM_WORLD). Never mind the dimension (100) and data type (MPI_REAL). Python will figure that sort of thing out for us once we apply this.
 
 Here's an example for something more complicated in terms of collective operations: an MPI_REDUCE. Remember the sum of the square roots? In that case we computed the partial sum (i.e. only some of the square roots) on each of the processes. At the end, everything got summed up to yield the final result. Exactly that kind of situation is addressed by this operation:
 
-~~~ {.python}
-Picture of Reduce
-~~~
+![Reduce](fig/Reduce.png)\
 
 If each of the processes has "a piece of the puzzle" and we want to combine it on one process, we have to specify:
 
