@@ -39,5 +39,3 @@ The approach we are taking here is to work towards taking our "Mandelbrot Set" p
 ## Other Resources
 
 *   [Reference](reference.html)
-*   [Discussion](discussion.html)
-*   [Instructor's Guide](instructors.html)
