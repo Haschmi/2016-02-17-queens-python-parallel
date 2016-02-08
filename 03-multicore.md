@@ -15,8 +15,7 @@ If you are working on a multicore laptop, you have  shared-memory machine right 
 
 Multithreading involves the dynamic creation of extra "light-weight processes" ; these are processes that have just enough stuff attached to them to do an independent job, but still share resources with other processes (such as cache and memory). The program is started like any other serial program, but during execution creates new processes that help with a workload when possible:
 
-
-![Multithreading on a shared-memory machine](fig/Multithreading.png)\
+<figure><img src="fig/Multithreading.png" width="600"><figcaption>Multithreading on a Shared-Memory Machine</figcaption></figure>
 
 One process (the main or master process) is always there. Typically it is the only one at the beginning and the end of the program. In between, additional ones are created and destroyed, as needed.
 

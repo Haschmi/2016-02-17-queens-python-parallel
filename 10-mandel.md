@@ -183,6 +183,6 @@ Done in  0.48674607276916504 seconds.
 
 That is pretty good scaling for a simple program like this. Welcome to the wild and wonderful world of high-performance computing.
 
-> ## Counting lines {.challenge}
+> ## Same thing different way {.challenge}
 >
 > This is probably going to be home work. Write a program that does the same thing as our MPImandel program, but uses a Bcast()/Reduce() approach to do it. Hints: You won't need an "mrow" array that contains a specific pixel row. Instead you have a copy of "mandel" (i.e. all the pixels) on each process. First you fill it all with zeroes, then you ucompute only those rows in the total structure that the specific process needs. Finally you use Reduce() to send them to Rank 0. For each process there will be a lot of zeroes, but that won't matter because zeroes will not contribute to the MPI_SUM.

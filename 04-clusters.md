@@ -13,7 +13,7 @@ If a computational problem is very large, the limitations of shared-memory machi
 
 The structure of a program that is designed for a cluster resembles the simultaneous independent run of the same code on multiple computers with an added communication between these processes ("Message Passing"):
 
-![Message Passing on a ditributed-memory clusters](fig/Messagepassing.png)\
+<figure><img src="fig/Messagepassing.png" width="600"><figcaption>Message Passing on a Distributed Memory Cluster</figcaption></figure>
 
 The standard API that is used to establish communication is called MPI (Message Passing Interface). It's a set of about 200 routines that are used to make processes that run on different CPU's "talk with each other". There are interfaces for Fortran, C, and C++, and some kind soul has provided some of the interfaces (you guessed it) for Python. But well get back to that later.
 

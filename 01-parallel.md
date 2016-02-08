@@ -13,7 +13,7 @@ minutes: 20
 
 Sometimes computational task are very demanding. A lot of memory my be required to keep large amounts of data around for easy access. Arithmetic operations may be complex and there may be billions of them. A routine may have to be executed a very large number of times to arrive at a result. An increase in computational workload calls for an increase in computational resources. In the past that usually meant that one needed a better, i.e. a faster computer. Luckily, computers had a way to satisfy these increasing demands by doubling their capacity every couple of years. In fact, one could count on it, and this observation was given a name: Moore's Law. Here's a picture of it (thanks, reddit):
 
-![Moore's Law in terms of transistor density](fig/Moores_Law.png)\
+<img src="fig/Moores_Law.png" width="600">
 
 The capacity of a computer's processing unit is roughly proportional to the number of transistors you can cram on it. Note that the y-axis of this graph is logarithmic. We can see that the number of transistors increases by an order of magnitude every 6 or 7 years. In recent times though, the "chips"" we are looking at are of the "multicore" variety, i.e. they have more than one processing unit on it. This is generally the case: In the last two decades improvement of computers has been largely due to "more" rather than "faster". Computing has turned parallel. What exactly does that mean?
 

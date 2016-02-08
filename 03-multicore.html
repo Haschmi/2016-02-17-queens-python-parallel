@@ -43,8 +43,13 @@
 </section>
 <p>If you are working on a multicore laptop, you have shared-memory machine right in front of you. We are doing our exercises on single-node servers that are small shared-memory machines of the “almost SMP” type. There are several ways of programming for these machines, but the most efficient and easiest way is “multi-threading”.</p>
 <p>Multithreading involves the dynamic creation of extra “light-weight processes” ; these are processes that have just enough stuff attached to them to do an independent job, but still share resources with other processes (such as cache and memory). The program is started like any other serial program, but during execution creates new processes that help with a workload when possible:</p>
-<p><img src="fig/Multithreading.png" alt="Multithreading on a shared-memory machine" /><br />
- One process (the main or master process) is always there. Typically it is the only one at the beginning and the end of the program. In between, additional ones are created and destroyed, as needed.</p>
+<figure>
+<img src="fig/Multithreading.png" width="600">
+<figcaption>
+Multithreading on a Shared-Memory Machine
+</figcaption>
+</figure>
+<p>One process (the main or master process) is always there. Typically it is the only one at the beginning and the end of the program. In between, additional ones are created and destroyed, as needed.</p>
 <p>Multi-threading can be done in three different ways:</p>
 <ul>
 <li><p>Automatically: Some compilers have the capability of finding regions in standard serial programs and “parallelizing” them, i.e. produce parallel code at compilation without additional work from the programmer. This usually is restricted to very simple loops, and works only if each of the loop iterations involves a workload that is independent of the workload from other loop iterations. This is called “Loop Parallelism”.</p></li>
