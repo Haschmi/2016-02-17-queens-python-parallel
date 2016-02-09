@@ -34,6 +34,7 @@ The approach we are taking here is to work towards taking our "Mandelbrot Set" p
 8.  [Let's Talk: Point-To-Point](08-p2p.html)
 9.  [Broadcast and Reduce: Sum of Square Roots](09-rootsum.html)
 10. [The Return of Mandelbrot (in parallel)](10-mandel.html)
+11. [Running Parallel Programs on HPC Systems](11-hpc.html)
 
 
 ## Other Resources
