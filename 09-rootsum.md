@@ -17,6 +17,8 @@ Our next step is to replace the point-to-point approach for communication by col
 
 Let's return to an example we have already encountered. The sum of square roots of integers, ranging from 0 to a maximum number m. Earlier we looked at OpenMP (multithreaded) and MPI versions of that program. These were programmed in Fortran, which is a rather low-level programming language that is nowhere as sophisticated as Python. (However, compared with Python, it's blazingly fast!)
 
+<img src="fig/Rootsum.png" width="400">
+
 The way we want to go about it is like this:
 * First we determine which of the square roots are computed by which process. A reasonable choice is to go about it round-robin: if we have 4 processes, number 0 does 0, 4, 8, 12 ...; number 1 does 1, 5, 9, 13 ...; etc.
 * We have each of the process compute a partial sum that includes all the square roots it evaluated.
@@ -191,5 +193,5 @@ This took 0.8241209983825684 seconds.
 
 The result's the same in all cases, and it scales pretty good up to 8 processes. If we're trying to double up to 16, then we get a warning from the system that we don't have that many cores, but it does it anyway. As you can see, the timing is worse than with 8 cores, so it definitely does not pay to overload the hardware and run more processes than you've got cores.
 
-Note that while the python program here scales well enough, it is slower than a C or or FORTRAN version by a factore of several hundered.
+Note that while the python program here scales well enough, it is slower than a C or or FORTRAN version by a factor of several hundered.
 

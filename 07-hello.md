@@ -9,7 +9,7 @@ minutes: 20
 > * Get some hands-on experience with writing and running parallel program.
 > * Use the MPI_Rank() and MPI_Size() functions.
 
-So let's try this out with the usual "Hello World" example. Let's make a bunch of processes and have them print out a message to the screen. We can't use the command line approach for this because we need to start everything with an "mpirun" command. So first we have to type in the program in an editor. Let's do it step by step:
+Now let's get something to run with multiple processes. We try this out with the usual "Hello World" example. Let's make a bunch of processes and have them print out a message to the screen. We can't use the command line approach for this because we need to start everything with an "mpirun" command. So first we have to type in the program in an editor. Let's do it step by step:
 
 First we need a header line that lets the system know that we are using Python 3:
 
@@ -25,7 +25,7 @@ from mpi4py import MPI
 
 Note that this also causes MPI to be initialized, so we won't have to call MPI_INIT. Thanks, MPI4Py.
 
-Let's safe here and try out if anythin breaks:
+Let's safe here and try out if anything breaks:
 
 ~~~ {.python}
 $ mpirun -np 8 ./hello.py
