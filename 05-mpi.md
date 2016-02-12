@@ -31,25 +31,23 @@ MPI uses the idea of "ranks". These are numbers between 0 and one less than the 
 The two functions MPI_COMM_RANK and MPI_COMM_SIZE are used by each process to determine their rank (i.e. their name) and the size. The latter is the total number of processes that are active. This information is essential for all processes, since they need to know how many others there are to properly distribute the workload.
 
 
-Try running the rootsum program with 12 processes:
+Try running the rootsum program with 8 processes:
 
-~~~ {.python}
-$ mpirun -np 12 ./rootsum.x < rootsum.in
+~~~ {.bash}
+$ mpirun -np 8 ./MPIrootsum.exe < rootsum.in
+~~~
+~~~ {.output}
  How many terms?
- RANK:           5 MYS=   2409905224976.83       M:  1234567890
- RANK:           6 MYS=   2409905227904.38       M:  1234567890
- RANK:           4 MYS=   2409905222048.78       M:  1234567890
- RANK:           7 MYS=   2409905195696.45       M:  1234567890
- RANK:           2 MYS=   2409905216192.29       M:  1234567890
- RANK:           8 MYS=   2409905198624.17       M:  1234567890
- RANK:           9 MYS=   2409905201551.99       M:  1234567890
- RANK:           3 MYS=   2409905219120.97       M:  1234567890
- RANK:          10 MYS=   2409905204479.74       M:  1234567890
- RANK:           0 MYS=   2409905210335.78       M:  1234567890
- RANK:          11 MYS=   2409905207407.71       M:  1234567890
- RANK:           1 MYS=   2409905213264.25       M:  1234567890
- Total sum:     28918862541603.3
- Total time on rank 0:    0.655900000000000
+ RANK:           2 MYS=   3614857833073.2891       M:  1234567890
+ RANK:           3 MYS=   3614857802328.6040       M:  1234567890
+ RANK:           4 MYS=   3614857806721.4648       M:  1234567890
+ RANK:           5 MYS=   3614857811112.1543       M:  1234567890
+ RANK:           6 MYS=   3614857815503.9478       M:  1234567890
+ RANK:           7 MYS=   3614857819895.4468       M:  1234567890
+ RANK:           1 MYS=   3614857828680.5991       M:  1234567890
+ RANK:           0 MYS=   3614857824287.5815       M:  1234567890
+ Total sum:     28918862541603.086
+ Total time on rank 0:     2.2696550000000002
 ~~~
 
 As we can see, the rank numbers are all over the place, so obviously the rank doesn't have anything to do with the order in which things happen. They are just labels, so "rank" is a bit of a misnomer. Things are supposed to happen simultaneously, otherwise there wouldn't be much of a point to parallel programming.

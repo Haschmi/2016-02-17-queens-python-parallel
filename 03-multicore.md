@@ -1,7 +1,7 @@
 ﻿---
 layout: page
 title: Parallel Computing
-subtitle: Multicore machines and Multithreading
+subtitle: Multicore Machines and Multithreading
 minutes: 20
 ---
 > ## Learning Objectives {.objectives}
@@ -11,6 +11,8 @@ minutes: 20
 > * Learn about pitfalls in multithreaded programs.
 > * Start a multithreaded program and monitor it while running. 
 
+## Threads ("Lightweight Processes")
+
 If you are working on a multicore laptop, you have  shared-memory machine right in front of you. We are doing our exercises on single-node servers that are small shared-memory machines of the "almost SMP" type. There are several ways of programming for these machines, but the most efficient and easiest way is "multi-threading". 
 
 Multithreading involves the dynamic creation of extra "light-weight processes" ; these are processes that have just enough stuff attached to them to do an independent job, but still share resources with other processes (such as cache and memory). The program is started like any other serial program, but during execution creates new processes that help with a workload when possible:
@@ -18,6 +20,8 @@ Multithreading involves the dynamic creation of extra "light-weight processes" ;
 <figure><img src="fig/Multithreading.png" width="600"><figcaption>Multithreading on a Shared-Memory Machine</figcaption></figure>
 
 One process (the main or master process) is always there. Typically it is the only one at the beginning and the end of the program. In between, additional ones are created and destroyed, as needed.
+
+## Multithreading
 
 Multi-threading can be done in three different ways:
 
@@ -35,3 +39,37 @@ Multithreading is reasonably straightforward to do, but there are pitfalls. One 
 
 * False Sharing: This has to do with cache handling. It doesn't break the code, but it creates a situation where one process forces the others to use cache very inefficiently. In extreme cases, one process does something useful, while all others are constantly re-loading cache from main memory and throwing it out again, slowing everything to a crawl.
 
+## How it looks on the machine
+
+Let's have another look at the program that we were running earlier (that would be "rootsum.exe" whcih computes the sum of square roots in poarallel).
+With a reasonable large input number (of the order of billions) we can keep the program running for long enough to do a bit of monitoring with the "top" program:
+
+~~~ {.bash}
+$ cat rootsum.in
+~~~
+~~~ {.output}
+1234567890
+~~~
+~~~ {.bash}
+$ OMP_NUM_THREADS=2 time -p ./rootsum.exe <rootsum.in &
+$ top
+~~~
+~~~ {.output}
+top - 15:12:44 up 5 days,  4:55,  1 user,  load average: 0.15, 0.08, 0.03
+Tasks: 237 total,   2 running, 235 sleeping,   0 stopped,   0 zombie
+Cpu(s):  0.0%us,  0.0%sy,  0.0%ni,100.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:  16331352k total,  1498124k used, 14833228k free,   235172k buffers
+Swap: 94334972k total,        0k used, 94334972k free,   885940k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+25791 user00    20   0 37128 1636 1328 R 196.2  0.0   0:04.44 rootsum.exe
+25793 user00    20   0 27612 1296  888 R  1.9  0.0   0:00.02 top
+    1 root      20   0 25596 1588 1256 S  0.0  0.0   0:01.08 init
+    2 root      20   0     0    0    0 S  0.0  0.0   0:00.02 kthreadd
+    3 root      RT   0     0    0    0 S  0.0  0.0   0:00.00 migration/0
+    4 root      20   0     0    0    0 S  0.0  0.0   0:00.00 ksoftirqd/0
+~~~
+
+Hopefully you can catch the %CPU in the first process "rootsum.exe". It says here 196.2 which means it's keeping two CPU's almost busy. Note that this is only one main process so you get only one line in the top command.
+
+But let's move on the distribute-memory programs and MPI.
