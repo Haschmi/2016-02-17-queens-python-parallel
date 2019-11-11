@@ -39,7 +39,7 @@ The approach we are taking here is to work towards taking our "Mandelbrot Set" p
 
 ## Topics
 
-1.  [Parallel Computing](01-parallel.html)
+1.  [Parallel Computing](01-parallel.md)
 2.  [Shared Memory and Distributed Memory](02-smdm.html)
 3.  [Multicore Machines and Multithreading](03-multicore.html)
 4.  [Clusters and Message Passing](04-clusters.html)
