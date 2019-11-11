@@ -3,7 +3,7 @@ layout: page
 title: Parallel Programming with Python
 ---
 
-Modern Computers are often "parallel", i.e. they have multiple processing units that can be taught to work together on a single application. Parallel computers range from multicore cell phones to huge clusters with hundreds of thousands of processors. Programming for such machines can be a daunting task. But a few basic principles can get you surprisingly far.
+Modern Computers systems are often "parallel", i.e. they have multiple processing units that can be taught to work together on a single application. Parallel computers range from multicore cell phones to huge clusters with hundreds of thousands of processors. Programming for such machines can be a daunting task. But a few basic principles can get you surprisingly far.
 
 In this course we would like to give you a basic introduction into how to go about writing a parallel program, and then run it on a small parallel system. We're using a system called "MPI" (Message Passing Interface) for this. There's a few reasons why we're using MPI to illustrate parallel programming:
 
